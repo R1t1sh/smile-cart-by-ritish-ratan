@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
 import productsApi from "apis/products";
+import PageNotFound from "components/ProductList";
 import { LeftArrow } from "neetoicons";
 import { Typography, Spinner } from "neetoui";
 import { isNotNil, append } from "ramda";
 import { useParams, useHistory } from "react-router-dom";
 
 import Carousel from "./Carousel";
-import PageNotFound from "./PageNotFound";
 
 const Product = () => {
   const [isLoading, setIsLoading] = useState(true);
