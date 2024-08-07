@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import productsApi from "apis/products";
+import AddToCart from "components/common/AddToCart";
 import PageNotFound from "components/ProductList";
 import { LeftArrow } from "neetoicons";
 import { Typography, Spinner } from "neetoui";
@@ -89,6 +90,7 @@ const Product = () => {
             {" "}
             {discountPercentage}% off
           </Typography>
+          <AddToCart {...{ slug }} />
         </div>
       </div>
     </div>
