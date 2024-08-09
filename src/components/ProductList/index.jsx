@@ -1,36 +1,25 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import productsApi from "apis/products";
-import { Header, PageLoader } from "components/common";
+import productsApi from "apis/product";
+import { Header, PageLoader } from "components/commons";
+import ProductListItem from "components/ProductList/ProductListItem";
 import useDebounce from "hooks/useDebounce";
 import { Search } from "neetoicons";
 import { Input, NoData } from "neetoui";
-import { isEmpty, without } from "ramda";
-
-import ProductListItem from "./ProductListItem";
-
-// ProductList.jsx
+import { isEmpty } from "ramda";
 
 const ProductList = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
   const debouncedSearchKey = useDebounce(searchKey);
 
-  const toggleIsInCart = slug =>
-    setCartItems(prevCartItems =>
-      prevCartItems.includes(slug)
-        ? without([slug], cartItems)
-        : [slug, ...cartItems]
-    );
-
   const fetchProducts = async () => {
     try {
-      // const { products } = await productsApi.fetch();
-      // setProducts(products);
-      const data = await productsApi.fetch({ searchTerm: debouncedSearchKey });
-      setProducts(data.products);
+      const { products } = await productsApi.fetch({
+        searchTerm: debouncedSearchKey,
+      });
+      setProducts(products);
     } catch (error) {
       console.log("An error occurred:", error);
     } finally {
@@ -49,9 +38,8 @@ const ProductList = () => {
   return (
     <div className="flex h-screen flex-col">
       <Header
-        cartItemsCount={cartItems.length}
         shouldShowBackButton={false}
-        title="Smile Cart"
+        title="Smile cart"
         actionBlock={
           <Input
             placeholder="Search products"
@@ -67,12 +55,7 @@ const ProductList = () => {
       ) : (
         <div className="grid grid-cols-2 justify-items-center gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
           {products.map(product => (
-            <ProductListItem
-              key={product.slug}
-              {...product}
-              isInCart={cartItems.includes(product.slug)}
-              toggleIsInCart={() => toggleIsInCart(product.slug)}
-            />
+            <ProductListItem key={product.slug} {...product} />
           ))}
         </div>
       )}

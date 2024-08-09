@@ -4,6 +4,7 @@ import { isEmpty, toPairs, pipe, omit } from "ramda";
 
 export const buildUrl = (route, params) => {
   const placeHolders = [];
+
   toPairs(params).forEach(([key, value]) => {
     if (route.includes(`:${key}`)) {
       placeHolders.push(key);

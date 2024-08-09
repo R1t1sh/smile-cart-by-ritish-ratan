@@ -1,29 +1,24 @@
-import {
-  keysToCamelCase,
-  serializeKeysToSnakeCase,
-} from "@bigbinary/neeto-cist";
 import axios from "axios";
+import { serializeKeysToSnakeCase, keysToCamelCase } from "neetocist";
 import { evolve } from "ramda";
-
-const transformResponseKeysToCamelCase = response => {
-  if (response.data) response.data = keysToCamelCase(response.data);
-};
-
-const responseInterceptors = () => {
-  //   axios.interceptors.response.use(response => response.data);
-  //   transformResponseKeysToCamelCase(response)
-  axios.interceptors.response.use(response => {
-    transformResponseKeysToCamelCase(response);
-    console.log("Response is ->", response.data);
-
-    return response.data;
-  });
-};
 
 const requestInterceptors = () => {
   axios.interceptors.request.use(
     evolve({ data: serializeKeysToSnakeCase, params: serializeKeysToSnakeCase })
   );
+  console.log(axios.interceptors.request);
+};
+
+const responseInterceptors = () => {
+  axios.interceptors.response.use(response => {
+    transformResponseKeysToCamelCase(response);
+
+    return response.data;
+  });
+};
+
+const transformResponseKeysToCamelCase = response => {
+  if (response.data) response.data = keysToCamelCase(response.data);
 };
 
 const setHttpHeaders = () => {
