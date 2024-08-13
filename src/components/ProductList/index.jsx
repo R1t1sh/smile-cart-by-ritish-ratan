@@ -8,7 +8,7 @@ import { Search } from "neetoicons";
 import { Input, NoData } from "neetoui";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
-
+import withTitle from "utils/withTitle";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -45,7 +45,7 @@ const ProductList = () => {
         title={t("title")}
         actionBlock={
           <Input
-          placeholder={t("searchProducts")}
+            placeholder={t("searchProducts")}
             prefix={<Search />}
             type="search"
             value={searchKey}
@@ -54,7 +54,7 @@ const ProductList = () => {
         }
       />
       {isEmpty(products) ? (
-           <NoData className="h-full w-full" title={t("noData")} />
+        <NoData className="h-full w-full" title={t("noData")} />
       ) : (
         <div className="grid grid-cols-2 justify-items-center gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
           {products.map(product => (
@@ -65,5 +65,4 @@ const ProductList = () => {
     </div>
   );
 };
-
-export default ProductList;
+export default withTitle(ProductList);

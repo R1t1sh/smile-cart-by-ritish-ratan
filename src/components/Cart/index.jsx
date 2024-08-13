@@ -6,10 +6,12 @@ import { PageLoader } from "components/commons";
 import Header from "components/commons/Header";
 import { MRP, OFFER_PRICE } from "components/constants";
 import { cartTotalOf } from "components/utils";
+import i18n from "i18next";
 import { NoData, Toastr } from "neetoui";
 import { isEmpty, keys } from "ramda";
 import { useTranslation } from "react-i18next";
 import useCartItemsStore from "stores/useCartItemsStore";
+import withTitle from "utils/withTitle";
 
 import PriceCard from "./PriceCard";
 import ProductCard from "./ProductCard";
@@ -61,7 +63,7 @@ const Cart = () => {
       <>
         <Header title={t("cart.title")} />
         <div className="flex h-screen items-center justify-center">
-        <NoData title={t("cart.empty")} />
+          <NoData title={t("cart.empty")} />
         </div>
       </>
     );
@@ -86,4 +88,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default withTitle(Cart, i18n.t("cart.title"));

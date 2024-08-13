@@ -5,11 +5,13 @@ import { Header, PageNotFound, PageLoader } from "components/commons";
 import AddToCart from "components/commons/AddToCart";
 import useSelectedQuantity from "components/hooks/useSelectedQuantity";
 import Carousel from "components/Product/Carousel";
+import i18n from "i18next";
 import { Button, Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import routes from "routes";
+import withTitle from "utils/withTitle";
 
 const Product = () => {
   const [isError, setIsError] = useState(false);
@@ -23,7 +25,7 @@ const Product = () => {
     try {
       const product = await productsApi.show(slug);
       setProduct(product);
-    } catch {
+    } catch (error) {
       setIsError(true);
       console.log(t("error.genericError", { error }));
     } finally {
@@ -70,10 +72,10 @@ const Product = () => {
           <Typography>{description}</Typography>
           <Typography>{t("mrp", { mrp })}</Typography>
           <Typography className="font-semibold">
-          {t("offerPrice", { offerPrice })}
+            {t("offerPrice", { offerPrice })}
           </Typography>
           <Typography className="font-semibold text-green-600">
-          {t("discountRate", { discountPercentage })}
+            {t("discountRate", { discountPercentage })}
           </Typography>
           <div className="flex space-x-10">
             <AddToCart {...{ availableQuantity, slug }} />
@@ -91,4 +93,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default withTitle(Product, i18n.t("product"));
